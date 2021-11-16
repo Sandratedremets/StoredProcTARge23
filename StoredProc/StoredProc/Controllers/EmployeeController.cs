@@ -124,7 +124,7 @@ namespace StoredProc.Controllers
         }
 
         [HttpGet]
-        public IActionResult SearchWithDynamic()
+        public IActionResult SearchWithDynamics()
         {
             string connectionStr = _config.GetConnectionString("DefaultConnection");
 
@@ -151,7 +151,7 @@ namespace StoredProc.Controllers
         }
 
         [HttpPost]
-        public IActionResult SearchWithDynamic(string firstName, string lastName, string gender, int salary)
+        public IActionResult SearchWithDynamics(string firstName, string lastName, string gender, int salary)
         {
             string connectionStr = _config.GetConnectionString("DefaultConnection");
 
@@ -172,17 +172,20 @@ namespace StoredProc.Controllers
                 }
                 if (lastName != null)
                 {
-                    SqlParameter param_ln = new SqlParameter(" AND LastName=@LastName", lastName);
+                    stringBuilder.Append(" AND LastName=@LastName");
+                    SqlParameter param_ln = new SqlParameter("@LastName", lastName);
                     cmd.Parameters.Add(param_ln);
                 }
                 if (gender != null)
                 {
-                    SqlParameter param_g = new SqlParameter(" AND Gender=@Gender", gender);
+                    stringBuilder.Append(" AND Gender=@Gender");
+                    SqlParameter param_g = new SqlParameter("@Gender", gender);
                     cmd.Parameters.Add(param_g);
                 }
                 if (salary != 0)
                 {
-                    SqlParameter param_s = new SqlParameter(" AND Salary=@Salary", salary);
+                    stringBuilder.Append(" AND Salary=@Salary");
+                    SqlParameter param_s = new SqlParameter("@Salary", salary);
                     cmd.Parameters.Add(param_s);
                 }
                 con.Open();
